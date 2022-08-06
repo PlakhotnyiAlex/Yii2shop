@@ -1,0 +1,61 @@
+version: '3.2'
+
+# Создаем общую сеть default для всех контейнеров
+services:
+  frontend-php:
+    build: frontend
+    depends_on:
+      - mysql
+    volumes:
+      # Re-use local composer cache via host-volume
+      - ~/.composer-docker/cache:/root/.composer/cache:delegated
+      # Mount source-code for development
+      - ./:/app
+
+  backend-php:
+    build: backend
+    depends_on:
+      - mysql
+    volumes:
+      # Re-use local composer cache via host-volume
+      - ~/.composer-docker/cache:/root/.composer/cache:delegated
+      # Mount source-code for development
+      - ./:/app
+  frontend:
+    image: nginx
+    ports:
+      - '8080:80'
+    volumes:
+      - ./:/app
+      - ./nginx/front/conf.d/:/etc/nginx/conf.d/
+    depends_on:
+      - frontend-php
+  backend:
+    image: nginx
+    ports:
+      - '8081:80'
+    volumes:
+      - ./:/app
+      - ./nginx/back/conf.d/:/etc/nginx/conf.d/
+    depends_on:
+      - backend-php
+  mysql:
+    image: mysql:8
+    ports:
+        - "3306:80"
+      # Задаем пароль для root пользователя
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    volumes:
+      - "./data/mysql:/var/lib/mysql"
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      - PMA_ARBITRARY=1
+    restart: always
+    environment:
+        PMA_HOST: mysql
+    ports:
+      - '8084:80'
+    depends_on:
+      - mysql
