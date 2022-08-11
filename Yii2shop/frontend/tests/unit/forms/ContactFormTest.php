@@ -1,15 +1,17 @@
 <?php
 
-namespace frontend\tests\unit\models;
+namespace frontend\tests\unit\forms;
 
-use frontend\models\ContactForm;
+use shop\forms\ContactForm;
 use yii\mail\MessageInterface;
+use function expect;
+use function expect_that;
 
 class ContactFormTest extends \Codeception\Test\Unit
 {
     public function testSendEmail()
     {
-        $model = new ContactForm();
+        $model = new \shop\forms\ContactForm();
 
         $model->attributes = [
             'name' => 'Tester',

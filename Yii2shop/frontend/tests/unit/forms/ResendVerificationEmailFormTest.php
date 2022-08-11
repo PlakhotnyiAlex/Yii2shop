@@ -1,11 +1,13 @@
 <?php
 
-namespace frontend\tests\unit\models;
+namespace frontend\tests\unit\forms;
 
 
 use Codeception\Test\Unit;
 use common\fixtures\UserFixture;
-use frontend\models\ResendVerificationEmailForm;
+use shop\forms\auth\ResendVerificationEmailForm;
+use function codecept_data_dir;
+use function expect;
 
 class ResendVerificationEmailFormTest extends Unit
 {
@@ -27,7 +29,7 @@ class ResendVerificationEmailFormTest extends Unit
 
     public function testWrongEmailAddress()
     {
-        $model = new ResendVerificationEmailForm();
+        $model = new \shop\forms\auth\ResendVerificationEmailForm();
         $model->attributes = [
             'email' => 'aaa@bbb.cc'
         ];
@@ -51,7 +53,7 @@ class ResendVerificationEmailFormTest extends Unit
 
     public function testResendToActiveUser()
     {
-        $model = new ResendVerificationEmailForm();
+        $model = new \shop\forms\auth\ResendVerificationEmailForm();
         $model->attributes = [
             'email' => 'test2@mail.com'
         ];
@@ -63,7 +65,7 @@ class ResendVerificationEmailFormTest extends Unit
 
     public function testSuccessfullyResend()
     {
-        $model = new ResendVerificationEmailForm();
+        $model = new \shop\forms\auth\ResendVerificationEmailForm();
         $model->attributes = [
             'email' => 'test@mail.com'
         ];
