@@ -1,10 +1,12 @@
 <?php
 
-namespace shop\entities;
+namespace shop\entities\User;
 
+use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
 use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 
@@ -27,6 +29,26 @@ class User extends ActiveRecord implements IdentityInterface
     const STATUS_WAIT = 0;
     const STATUS_ACTIVE = 10;
 
+    public static function create(string $username, string $email, string $password): self
+    {
+        $user = new User();
+        $user->username = $username;
+        $user->email = $email;
+
+        $user->setPassword(!empty($password) ? $password : Yii::$app->security->generateRandomString());
+        $user->created_at = time();
+        $user->status = self::STATUS_ACTIVE;
+        $user->auth_key = Yii::$app->security->generateRandomString();
+        return $user;
+    }
+    public function edit(string $username, string $email): void
+    {
+        $this->username = $username;
+        $this->email = $email;
+
+        $this->updated_at = time();
+    }
+
     public static function requestSignup(string $username, string $email, string $password): self
     {
         $user = new User();
@@ -35,18 +57,38 @@ class User extends ActiveRecord implements IdentityInterface
         $user->setPassword($password);
         $user->created_at = time();
         $user->status = self::STATUS_WAIT;
-        $user->generateEmailConfirmToken();
+        $user->email_confirm_token = Yii::$app->security->generateRandomString();
         $user->generateAuthKey();
         return $user;
     }
 
     public function confirmSignup()
     {
-        if (!$this->isWait()){
+        if (!$this->isWait()) {
             throw new \DomainException('User is already active.');
         }
         $this->status = self::STATUS_ACTIVE;
         $this->removeEmailConfirmToken();
+    }
+    public static function signupByNetwork($network, $identity): self
+    {
+        $user = new User();
+        $user->created_at = time();
+        $user->status = self::STATUS_ACTIVE;
+        $user->generateAuthKey();
+        $user->networks = [Network::create($network, $identity)];
+        return $user;
+    }
+    public function attachNetwork($network, $identity): void
+    {
+        $networks = $this->networks;
+        foreach ($networks as $current) {
+            if ($current->isFor($network, $identity)) {
+                throw new \DomainException('Network is already attached.');
+            }
+        }
+        $networks[] = Network::create($network, $identity);
+        $this->networks = $networks;
     }
 
     public function requestPasswordReset(): void
@@ -59,7 +101,7 @@ class User extends ActiveRecord implements IdentityInterface
 
     public function resetPassword($password): void
     {
-        if (empty($this->password_reset_token)){
+        if (empty($this->password_reset_token)) {
             throw new \DomainException('Password resetting is not requested.');
         }
         $this->setPassword($password);
@@ -74,6 +116,11 @@ class User extends ActiveRecord implements IdentityInterface
     public function isActive(): bool
     {
         return $this->status === self::STATUS_ACTIVE;
+    }
+
+    public function getNetworks(): ActiveQuery
+    {
+        return $this->hasMany(Network::class, ['user_id' => 'id']);
     }
 
     /**
@@ -91,17 +138,15 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return [
             TimestampBehavior::className(),
+            ['class' => SaveRelationsBehavior::class,
+             'relations' => ['networks'],
+            ],
         ];
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function rules()
+    public function transactions()
     {
         return [
-            ['status', 'default', 'value' => self::STATUS_ACTIVE],
-            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_WAIT]],
+            self::SCENARIO_DEFAULT => self::OP_ALL,
         ];
     }
 

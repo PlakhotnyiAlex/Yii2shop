@@ -6,6 +6,7 @@
 
 use yii\bootstrap4\Html;
 use yii\bootstrap4\ActiveForm;
+use yii\helpers\Url;
 
 $this->title = 'Login';
 $this->params['breadcrumbs'][] = $this->title;
@@ -26,9 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?= $form->field($model, 'rememberMe')->checkbox() ?>
 
                 <div style="color:#999;margin:1em 0">
-                    If you forgot your password you can <?= Html::a('reset it', ['site/request-password-reset']) ?>.
-                    <br>
-                    Need new verification email? <?= Html::a('Resend', ['site/resend-verification-email']) ?>
+                    If you forgot your password you can <?= Html::a('reset it', ['auth/reset/request']) ?>.
                 </div>
 
                 <div class="form-group">
@@ -36,6 +35,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
 
             <?php ActiveForm::end(); ?>
+            <h2>Socials</h2>
+            <?php yii\authclient\widgets\AuthChoice::widget([
+                    'baseAuthUrl' => ['auth/network/auth']
+            ]); ?>
         </div>
     </div>
 </div>

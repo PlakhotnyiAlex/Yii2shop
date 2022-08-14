@@ -9,4 +9,5 @@ return [
     'cookieDomain' => '.example.com',
     'frontendHostInfo' => 'http://example.com',
     'backendHostInfo' => 'http://bakend.example.com',
+    'bsVersion' => '4.x'
 ];

@@ -3,9 +3,9 @@
 use yii\helpers\Html;
 
 /** @var yii\web\View $this */
-/** @var \shop\entities\User $user */
+/** @var \shop\entities\User\User $user */
 
-$verifyLink = Yii::$app->urlManager->createAbsoluteUrl(['site/verify-email', 'token' => $user->verification_token]);
+$confirmLink = Yii::$app->urlManager->createAbsoluteUrl(['auth/signup/confirm', 'token' => $user->email_confirm_token]);
 ?>
 <div class="verify-email">
     <p>Hello <?= Html::encode($user->username) ?>,</p>
