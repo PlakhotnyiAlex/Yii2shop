@@ -9,5 +9,7 @@ return [
     'cookieDomain' => '.example.com',
     'frontendHostInfo' => 'http://example.com',
     'backendHostInfo' => 'http://bakend.example.com',
-    'bsVersion' => '4.x'
+    'bsVersion' => '4.x',
+    'staticHostInfo' => 'http://static.example.com',
+    'staticPath' => dirname(__DIR__, 2) . '/static',
 ];

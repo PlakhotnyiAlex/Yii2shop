@@ -59,3 +59,12 @@ services:
       - '8084:80'
     depends_on:
       - mysql
+  static:
+    image: nginx
+    ports:
+      - '8085:80'
+    volumes:
+      - ./static:/app/static
+      - ./nginx/static/log/:/app/log/
+      - ./nginx/static/conf.d/:/etc/nginx/conf.d/
+
