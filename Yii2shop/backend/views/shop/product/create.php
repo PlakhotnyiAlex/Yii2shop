@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
                 </div>
             </div>
-            <?= $form->field($model, 'description')->widget(CKEditor::className()) ?>
+        <?= $form->field($model, 'description')->widget(CKEditor::class) ?>
         </div>
     </div>
 

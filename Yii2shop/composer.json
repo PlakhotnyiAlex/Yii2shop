@@ -27,7 +27,11 @@
         "paulzi/yii2-nested-sets": "^1.1",
         "yii-dream-team/yii2-upload-behavior": "*",
         "mihaildev/yii2-ckeditor": "*",
-        "kartik-v/yii2-widget-fileinput": "@dev"
+        "kartik-v/yii2-widget-fileinput": "@dev",
+        "kartik-v/yii2-icons": "@dev",
+        "twbs/bootstrap-icons": "^1.9",
+        "bower-asset/owl.carousel": "^2.3",
+        "bower-asset/font-awesome": "^6.1"
 
     },
     "require-dev": {

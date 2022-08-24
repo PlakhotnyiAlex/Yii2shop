@@ -2,7 +2,7 @@
 
 use shop\entities\Shop\Category;
 use yii\grid\ActionColumn;
-use yii\helpers\Html;
+use yii\bootstrap4\Html;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
@@ -35,15 +35,15 @@ $this->params['breadcrumbs'][] = $this->title;
                         },
                         'format' => 'raw',
                     ],
-                   /* [
+                    [
                         'value' => function (Category $model) {
                             return
-                                Html::a('<span class="glyphicon glyphicon-arrow-up"></span>', ['move-up', 'id' => $model->id]) .
-                                Html::a('<span class="glyphicon glyphicon-arrow-down"></span>', ['move-down', 'id' => $model->id]);
+                                Html::a('<span class="fa fa-arrow-up"></span>', ['move-up', 'id' => $model->id]) .
+                                Html::a('<span class="fa fa-arrow-down"></span>', ['move-down', 'id' => $model->id]);
                         },
                         'format' => 'raw',
                         'contentOptions' => ['style' => 'text-align: center'],
-                    ],*/
+                    ],
                     'slug',
                     'title',
                     ['class' => ActionColumn::class],

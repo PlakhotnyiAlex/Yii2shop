@@ -10,6 +10,6 @@ return [
     'frontendHostInfo' => 'http://example.com',
     'backendHostInfo' => 'http://bakend.example.com',
     'bsVersion' => '4.x',
-    'staticHostInfo' => 'http://static.example.com',
+    'staticHostInfo' => 'http://static.shop.d',
     'staticPath' => dirname(__DIR__, 2) . '/static',
 ];

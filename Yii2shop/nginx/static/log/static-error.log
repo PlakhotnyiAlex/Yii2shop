@@ -1,0 +1,4 @@
+2022/08/18 17:44:09 [error] 31#31: *1 directory index of "/app/static/" is forbidden, client: 172.18.0.1, server: static.shop.dev, request: "GET / HTTP/1.1", host: "static.shop.d"
+2022/08/18 17:44:10 [error] 31#31: *1 open() "/app/static/favicon.ico" failed (2: No such file or directory), client: 172.18.0.1, server: static.shop.dev, request: "GET /favicon.ico HTTP/1.1", host: "static.shop.d", referrer: "http://static.shop.d/"
+2022/08/18 17:45:04 [error] 31#31: *1 directory index of "/app/static/origin/" is forbidden, client: 172.18.0.1, server: static.shop.dev, request: "GET /origin/ HTTP/1.1", host: "static.shop.d"
+2022/08/23 10:37:30 [error] 33#33: *6 open() "/app/static/favicon.ico" failed (2: No such file or directory), client: 172.18.0.1, server: static.shop.dev, request: "GET /favicon.ico HTTP/1.1", host: "static.shop.d", referrer: "http://static.shop.d/cache/products/3/"

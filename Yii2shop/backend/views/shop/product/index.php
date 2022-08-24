@@ -29,13 +29,13 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $model->quantity <= 0 ? ['style' => 'background: #fdc'] : [];
                 },
                 'columns' => [
-                   /* [
+                    [
                         'value' => function (Product $model) {
                             return $model->mainPhoto ? Html::img($model->mainPhoto->getThumbFileUrl('file', 'admin')) : null;
                         },
                         'format' => 'raw',
                         'contentOptions' => ['style' => 'width: 100px'],
-                    ],*/
+                    ],
                     'id',
                     [
                         'attribute' => 'name',
