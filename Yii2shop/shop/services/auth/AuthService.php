@@ -5,6 +5,7 @@ namespace shop\services\auth;
 use shop\entities\User\User;
 use shop\forms\auth\LoginForm;
 use shop\repositories\UserRepository;
+
 class AuthService
 {
     private $users;
@@ -13,7 +14,8 @@ class AuthService
     {
         $this->users = $users;
     }
-    public function auth(LoginForm $form):User
+
+    public function auth(LoginForm $form): User
     {
         $user = $this->users->findByUsernameOrEmail($form->username);
         if (!$user || !$user->isActive() || !$user->validatePassword($form->password)) {
@@ -21,5 +23,4 @@ class AuthService
         }
         return $user;
     }
-
 }

@@ -1,10 +1,10 @@
 <?php
 
-/** @var yii\web\View $this */
-/** @var yii\bootstrap4\ActiveForm $form */
-/** @var \shop\forms\auth\PasswordResetRequestForm $model */
+/* @var $this yii\web\View */
+/* @var $form yii\bootstrap4\ActiveForm */
+/* @var $model \shop\forms\auth\PasswordResetRequestForm */
 
-use yii\bootstrap4\Html;
+use yii\helpers\Html;
 use yii\bootstrap4\ActiveForm;
 
 $this->title = 'Request password reset';

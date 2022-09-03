@@ -8,6 +8,9 @@ use yii\web\Controller;
  */
 class SiteController extends Controller
 {
+    /**
+     * @inheritdoc
+     */
     public function actions()
     {
         return [
@@ -22,17 +25,15 @@ class SiteController extends Controller
     }
 
     /**
-     * Displays homepage.
-     *
      * @return mixed
      */
     public function actionIndex()
     {
+        $this->layout = 'home';
         return $this->render('index');
     }
+
     /**
-     * Displays about page.
-     *
      * @return mixed
      */
     public function actionAbout()

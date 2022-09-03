@@ -2,7 +2,6 @@
 
 namespace shop\entities\Shop;
 
-
 use shop\entities\behaviors\MetaBehavior;
 use shop\entities\Meta;
 use yii\db\ActiveRecord;
@@ -48,7 +47,7 @@ class Brand extends ActiveRecord
     public function behaviors(): array
     {
         return [
-            MetaBehavior::class,
+            MetaBehavior::className(),
         ];
     }
 }

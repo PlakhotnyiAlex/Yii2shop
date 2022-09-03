@@ -25,13 +25,13 @@ class ProductHelper
     {
         switch ($status) {
             case Product::STATUS_DRAFT:
-                $class = 'badge badge-default';
+                $class = 'label label-default';
                 break;
             case Product::STATUS_ACTIVE:
-                $class = 'badge badge-success';
+                $class = 'label label-success';
                 break;
             default:
-                $class = 'badge badge-default';
+                $class = 'label label-default';
         }
 
         return Html::tag('span', ArrayHelper::getValue(self::statusList(), $status), [

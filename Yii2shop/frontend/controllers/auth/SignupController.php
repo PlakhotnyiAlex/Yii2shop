@@ -1,6 +1,6 @@
 <?php
-
 namespace frontend\controllers\auth;
+
 use shop\services\auth\SignupService;
 use Yii;
 use yii\web\Controller;
@@ -9,6 +9,8 @@ use shop\forms\auth\SignupForm;
 
 class SignupController extends Controller
 {
+    public $layout = 'cabinet';
+
     private $service;
 
     public function __construct($id, $module, SignupService $service, $config = [])
@@ -16,11 +18,12 @@ class SignupController extends Controller
         parent::__construct($id, $module, $config);
         $this->service = $service;
     }
+
     public function behaviors(): array
     {
         return [
             'access' => [
-                'class' => AccessControl::class,
+                'class' => AccessControl::className(),
                 'only' => ['index'],
                 'rules' => [
                     [
@@ -71,5 +74,4 @@ class SignupController extends Controller
         }
         return $this->goHome();
     }
-
 }

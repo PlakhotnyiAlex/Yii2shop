@@ -31,7 +31,6 @@ class PriceForm extends Model
         return [
             [['new'], 'required'],
             [['old', 'new'], 'integer', 'min' => 0],
-            [['old'], 'default', 'value' => 0],
         ];
     }
 }

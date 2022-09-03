@@ -2,7 +2,7 @@
 
 namespace frontend\controllers\cabinet;
 
-use shop\useCases\auth\NetworkService;
+use shop\services\auth\NetworkService;
 use Yii;
 use yii\authclient\ClientInterface;
 use yii\helpers\ArrayHelper;

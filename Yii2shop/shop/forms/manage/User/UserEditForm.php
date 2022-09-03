@@ -9,6 +9,7 @@ class UserEditForm extends Model
 {
     public $username;
     public $email;
+
     public $_user;
 
     public function __construct(User $user, $config = [])
@@ -23,9 +24,9 @@ class UserEditForm extends Model
     {
         return [
             [['username', 'email'], 'required'],
+            ['email', 'email'],
             ['email', 'string', 'max' => 255],
             [['username', 'email'], 'unique', 'targetClass' => User::class, 'filter' => ['<>', 'id', $this->_user->id]],
         ];
     }
-
 }

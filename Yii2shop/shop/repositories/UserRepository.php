@@ -1,8 +1,8 @@
 <?php
 
 namespace shop\repositories;
+
 use shop\entities\User\User;
-use shop\repositories\NotFoundException;
 
 class UserRepository
 {
@@ -15,45 +15,50 @@ class UserRepository
     {
         return User::find()->joinWith('networks n')->andWhere(['n.network' => $network, 'n.identity' => $identity])->one();
     }
-    public function getByEmailConfirmToken(string $token): User
-    {
-        if (!$user = User::findOne(['email_confirm_token' => $token])){
-            throw new \DomainException('User is not found.');
-        }
-        return $user;
-    }
+
     public function get($id): User
     {
         return $this->getBy(['id' => $id]);
     }
-    public function getByEmail(string $email): User
+
+    public function getByEmailConfirmToken($token): User
     {
-        if (!$user = User::findOne(['email' => $email])) {
-            throw new \DomainException('User is not found.');
-        }
-        return $user;
+        return $this->getBy(['email_confirm_token' => $token]);
     }
-    public function existsByPasswordResetToken(string $token): User
+
+    public function getByEmail($email): User
     {
-        return User::findByPasswordResetToken($token);
+        return $this->getBy(['email' => $email]);
     }
-    public function getByPasswordResetToken(string $token): User
+
+    public function getByPasswordResetToken($token): User
     {
-        if (!$user = User::findByPasswordResetToken($token)) {
-            throw new \DomainException('User is not found.');
-        }
-        return $user;
+        return $this->getBy(['password_reset_token' => $token]);
     }
+
+    public function existsByPasswordResetToken(string $token): bool
+    {
+        return (bool) User::findByPasswordResetToken($token);
+    }
+
     public function save(User $user): void
     {
         if (!$user->save()) {
             throw new \RuntimeException('Saving error.');
         }
     }
+
+    public function remove(User $user): void
+    {
+        if (!$user->delete()) {
+            throw new \RuntimeException('Removing error.');
+        }
+    }
+
     private function getBy(array $condition): User
     {
         if (!$user = User::find()->andWhere($condition)->limit(1)->one()) {
-            throw new \shop\repositories\NotFoundException('User is not found.');
+            throw new NotFoundException('User not found.');
         }
         return $user;
     }

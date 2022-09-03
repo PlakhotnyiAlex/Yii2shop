@@ -1,5 +1,4 @@
 <?php
-
 namespace shop\entities\User;
 
 use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
@@ -12,17 +11,20 @@ use yii\web\IdentityInterface;
 
 /**
  * User model
+ *
  * @property integer $id
  * @property string $username
  * @property string $password_hash
  * @property string $password_reset_token
- * @property string $verification_token
  * @property string $email
+ * @property string $email_confirm_token
  * @property string $auth_key
  * @property integer $status
  * @property integer $created_at
  * @property integer $updated_at
  * @property string $password write-only password
+ *
+ * @property Network[] $networks
  */
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -34,18 +36,17 @@ class User extends ActiveRecord implements IdentityInterface
         $user = new User();
         $user->username = $username;
         $user->email = $email;
-
         $user->setPassword(!empty($password) ? $password : Yii::$app->security->generateRandomString());
         $user->created_at = time();
         $user->status = self::STATUS_ACTIVE;
         $user->auth_key = Yii::$app->security->generateRandomString();
         return $user;
     }
+
     public function edit(string $username, string $email): void
     {
         $this->username = $username;
         $this->email = $email;
-
         $this->updated_at = time();
     }
 
@@ -62,14 +63,15 @@ class User extends ActiveRecord implements IdentityInterface
         return $user;
     }
 
-    public function confirmSignup()
+    public function confirmSignup(): void
     {
         if (!$this->isWait()) {
             throw new \DomainException('User is already active.');
         }
         $this->status = self::STATUS_ACTIVE;
-        $this->removeEmailConfirmToken();
+        $this->email_confirm_token = null;
     }
+
     public static function signupByNetwork($network, $identity): self
     {
         $user = new User();
@@ -79,6 +81,7 @@ class User extends ActiveRecord implements IdentityInterface
         $user->networks = [Network::create($network, $identity)];
         return $user;
     }
+
     public function attachNetwork($network, $identity): void
     {
         $networks = $this->networks;
@@ -94,7 +97,7 @@ class User extends ActiveRecord implements IdentityInterface
     public function requestPasswordReset(): void
     {
         if (!empty($this->password_reset_token) && self::isPasswordResetTokenValid($this->password_reset_token)) {
-            throw new \DomainException('Password resetting is already requsted.');
+            throw new \DomainException('Password resetting is already requested.');
         }
         $this->password_reset_token = Yii::$app->security->generateRandomString() . '_' . time();
     }
@@ -120,11 +123,11 @@ class User extends ActiveRecord implements IdentityInterface
 
     public function getNetworks(): ActiveQuery
     {
-        return $this->hasMany(Network::class, ['user_id' => 'id']);
+        return $this->hasMany(Network::className(), ['user_id' => 'id']);
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public static function tableName()
     {
@@ -132,17 +135,19 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function behaviors()
     {
         return [
             TimestampBehavior::className(),
-            ['class' => SaveRelationsBehavior::class,
-             'relations' => ['networks'],
+            [
+                'class' => SaveRelationsBehavior::className(),
+                'relations' => ['networks'],
             ],
         ];
     }
+
     public function transactions()
     {
         return [
@@ -151,7 +156,7 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public static function findIdentity($id)
     {
@@ -159,7 +164,7 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public static function findIdentityByAccessToken($token, $type = null)
     {
@@ -196,19 +201,6 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
-     * Finds user by verification email token
-     *
-     * @param string $token verify email token
-     * @return static|null
-     */
-    public static function findByVerificationToken($token) {
-        return static::findOne([
-            'verification_token' => $token,
-            'status' => self::STATUS_WAIT
-        ]);
-    }
-
-    /**
      * Finds out if password reset token is valid
      *
      * @param string $token password reset token
@@ -226,7 +218,7 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getId()
     {
@@ -234,7 +226,7 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getAuthKey()
     {
@@ -242,7 +234,7 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function validateAuthKey($authKey)
     {
@@ -276,41 +268,5 @@ class User extends ActiveRecord implements IdentityInterface
     private function generateAuthKey()
     {
         $this->auth_key = Yii::$app->security->generateRandomString();
-    }
-
-    /**
-     * Generates new password reset token
-     */
-    private function generatePasswordResetToken()
-    {
-        $this->password_reset_token = Yii::$app->security->generateRandomString() . '_' . time();
-    }
-
-    /**
-     * Generates new token for email verification
-     */
-    private function generateEmailVerificationToken()
-    {
-        $this->verification_token = Yii::$app->security->generateRandomString() . '_' . time();
-    }
-
-    /**
-     * Removes password reset token
-     */
-    private function removePasswordResetToken()
-    {
-        $this->password_reset_token = null;
-    }
-    public function generateEmailConfirmToken()
-    {
-        $this->email_confirm_token = Yii::$app->security->generateRandomString();
-    }
-
-    /**
-     * Removes password reset token
-     */
-    public function removeEmailConfirmToken()
-    {
-        $this->email_confirm_token = null;
     }
 }

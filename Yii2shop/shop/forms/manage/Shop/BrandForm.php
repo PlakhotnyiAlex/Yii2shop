@@ -2,13 +2,10 @@
 
 namespace shop\forms\manage\Shop;
 
-
 use shop\entities\Shop\Brand;
 use shop\forms\CompositeForm;
 use shop\forms\manage\MetaForm;
 use shop\validators\SlugValidator;
-
-
 
 /**
  * @property MetaForm $meta;

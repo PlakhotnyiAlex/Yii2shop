@@ -7,10 +7,6 @@ use yii\db\ActiveQuery;
 
 class ProductQuery extends ActiveQuery
 {
-    /**
-     * @param null $alias
-     * @return $this
-     */
     public function active($alias = null)
     {
         return $this->andWhere([

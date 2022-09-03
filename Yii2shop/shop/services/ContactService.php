@@ -9,11 +9,13 @@ class ContactService
 {
     private $adminEmail;
     private $mailer;
+
     public function __construct($adminEmail, MailerInterface $mailer)
     {
         $this->adminEmail = $adminEmail;
         $this->mailer = $mailer;
     }
+
     public function send(ContactForm $form): void
     {
         $sent = $this->mailer->compose()

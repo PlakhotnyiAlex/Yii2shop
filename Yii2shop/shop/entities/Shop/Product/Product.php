@@ -2,17 +2,13 @@
 
 namespace shop\entities\Shop\Product;
 
-use shop\entities\EventTrait;
 use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
-use shop\entities\AggregateRoot;
 use shop\entities\behaviors\MetaBehavior;
 use shop\entities\Meta;
 use shop\entities\Shop\Brand;
 use shop\entities\Shop\Category;
-use shop\entities\Shop\Product\events\ProductAppearedInStock;
 use shop\entities\Shop\Product\queries\ProductQuery;
 use shop\entities\Shop\Tag;
-use shop\entities\User\WishlistItem;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 use yii\db\Exception;
@@ -31,8 +27,6 @@ use yii\web\UploadedFile;
  * @property integer $rating
  * @property integer $main_photo_id
  * @property integer $status
- * @property integer $weight
- * @property integer $quantity
  *
  * @property Meta $meta
  * @property Brand $brand
@@ -48,16 +42,14 @@ use yii\web\UploadedFile;
  * @property Photo $mainPhoto
  * @property Review[] $reviews
  */
-class Product extends ActiveRecord implements AggregateRoot
+class Product extends ActiveRecord
 {
-    use EventTrait;
-
     const STATUS_DRAFT = 0;
     const STATUS_ACTIVE = 1;
 
     public $meta;
 
-    public static function create($brandId, $categoryId, $code, $name, $description, $weight, $quantity, Meta $meta): self
+    public static function create($brandId, $categoryId, $code, $name, $description, Meta $meta): self
     {
         $product = new static();
         $product->brand_id = $brandId;
@@ -65,8 +57,6 @@ class Product extends ActiveRecord implements AggregateRoot
         $product->code = $code;
         $product->name = $name;
         $product->description = $description;
-        $product->weight = $weight;
-        $product->quantity = $quantity;
         $product->meta = $meta;
         $product->status = self::STATUS_DRAFT;
         $product->created_at = time();
@@ -79,21 +69,12 @@ class Product extends ActiveRecord implements AggregateRoot
         $this->price_old = $old;
     }
 
-    public function changeQuantity($quantity): void
-    {
-        if ($this->modifications) {
-            throw new \DomainException('Change modifications quantity.');
-        }
-        $this->setQuantity($quantity);
-    }
-
-    public function edit($brandId, $code, $name, $description, $weight, Meta $meta): void
+    public function edit($brandId, $code, $name, $description, Meta $meta): void
     {
         $this->brand_id = $brandId;
         $this->code = $code;
         $this->name = $name;
         $this->description = $description;
-        $this->weight = $weight;
         $this->meta = $meta;
     }
 
@@ -128,7 +109,6 @@ class Product extends ActiveRecord implements AggregateRoot
     {
         return $this->status == self::STATUS_DRAFT;
     }
-
     public function isAvailable(): bool
     {
         return $this->quantity > 0;
@@ -215,17 +195,7 @@ class Product extends ActiveRecord implements AggregateRoot
         throw new \DomainException('Modification is not found.');
     }
 
-    public function getModificationPrice($id): int
-    {
-        foreach ($this->modifications as $modification) {
-            if ($modification->isIdEqualTo($id)) {
-                return $modification->price ?: $this->price_new;
-            }
-        }
-        throw new \DomainException('Modification is not found.');
-    }
-
-    public function addModification($code, $name, $price, $quantity): void
+    public function addModification($code, $name, $price): void
     {
         $modifications = $this->modifications;
         foreach ($modifications as $modification) {
@@ -233,17 +203,17 @@ class Product extends ActiveRecord implements AggregateRoot
                 throw new \DomainException('Modification already exists.');
             }
         }
-        $modifications[] = Modification::create($code, $name, $price, $quantity);
-        $this->updateModifications($modifications);
+        $modifications[] = Modification::create($code, $name, $price);
+        $this->modifications = $modifications;
     }
 
-    public function editModification($id, $code, $name, $price, $quantity): void
+    public function editModification($id, $code, $name, $price): void
     {
         $modifications = $this->modifications;
         foreach ($modifications as $i => $modification) {
             if ($modification->isIdEqualTo($id)) {
-                $modification->edit($code, $name, $price, $quantity);
-                $this->updateModifications($modifications);
+                $modification->edit($code, $name, $price);
+                $this->modifications = $modifications;
                 return;
             }
         }
@@ -256,19 +226,11 @@ class Product extends ActiveRecord implements AggregateRoot
         foreach ($modifications as $i => $modification) {
             if ($modification->isIdEqualTo($id)) {
                 unset($modifications[$i]);
-                $this->updateModifications($modifications);
+                $this->modifications = $modifications;
                 return;
             }
         }
         throw new \DomainException('Modification is not found.');
-    }
-
-    private function updateModifications(array $modifications): void
-    {
-        $this->modifications = $modifications;
-        $this->setQuantity(array_sum(array_map(function (Modification $modification) {
-            return $modification->quantity;
-        }, $this->modifications)));
     }
 
     // Categories
@@ -567,11 +529,6 @@ class Product extends ActiveRecord implements AggregateRoot
     public function getReviews(): ActiveQuery
     {
         return $this->hasMany(Review::class, ['product_id' => 'id']);
-    }
-
-    public function getWishlistItems(): ActiveQuery
-    {
-        return $this->hasMany(WishlistItem::class, ['product_id' => 'id']);
     }
 
     ##########################

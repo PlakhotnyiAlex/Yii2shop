@@ -23,6 +23,7 @@ class NetworkService
         $this->users->save($user);
         return $user;
     }
+
     public function attach($id, $network, $identity): void
     {
         if ($this->users->findByNetworkIdentity($network, $identity)) {

@@ -7,11 +7,13 @@ use yii\web\Controller;
 
 class DefaultController extends Controller
 {
+    public $layout = 'cabinet';
+
     public function behaviors(): array
     {
         return [
             'access' => [
-                'class' => AccessControl::class,
+                'class' => AccessControl::className(),
                 'rules' => [
                     [
                         'allow' => true,
@@ -19,12 +21,14 @@ class DefaultController extends Controller
                     ],
                 ],
             ],
-
         ];
     }
+
+    /**
+     * @return mixed
+     */
     public function actionIndex()
     {
         return $this->render('index');
     }
-
 }

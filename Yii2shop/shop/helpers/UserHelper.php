@@ -25,13 +25,13 @@ class UserHelper
     {
         switch ($status) {
             case User::STATUS_WAIT:
-                $class = 'badge badge-default';
+                $class = 'label label-default';
                 break;
             case User::STATUS_ACTIVE:
-                $class = 'badge badge-success';
+                $class = 'label label-success';
                 break;
             default:
-                $class = 'badge badge-default';
+                $class = 'label label-default';
         }
 
         return Html::tag('span', ArrayHelper::getValue(self::statusList(), $status), [

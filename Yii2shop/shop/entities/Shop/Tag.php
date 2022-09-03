@@ -2,7 +2,6 @@
 
 namespace shop\entities\Shop;
 
-
 use yii\db\ActiveRecord;
 
 /**

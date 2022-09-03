@@ -2,7 +2,6 @@
 
 namespace shop\forms\manage\Shop;
 
-
 use shop\entities\Shop\Characteristic;
 use shop\helpers\CharacteristicHelper;
 use yii\base\Model;

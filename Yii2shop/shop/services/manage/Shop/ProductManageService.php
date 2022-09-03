@@ -5,7 +5,6 @@ namespace shop\services\manage\Shop;
 use shop\entities\Meta;
 use shop\entities\Shop\Product\Product;
 use shop\entities\Shop\Tag;
-use shop\forms\manage\Shop\Product\QuantityForm;
 use shop\forms\manage\Shop\Product\CategoriesForm;
 use shop\forms\manage\Shop\Product\ModificationForm;
 use shop\forms\manage\Shop\Product\PhotosForm;
@@ -52,8 +51,6 @@ class ProductManageService
             $form->code,
             $form->name,
             $form->description,
-            $form->weight,
-            $form->quantity->quantity,
             new Meta(
                 $form->meta->title,
                 $form->meta->description,
@@ -106,7 +103,6 @@ class ProductManageService
             $form->code,
             $form->name,
             $form->description,
-            $form->weight,
             new Meta(
                 $form->meta->title,
                 $form->meta->description,
@@ -150,13 +146,6 @@ class ProductManageService
     {
         $product = $this->products->get($id);
         $product->setPrice($form->new, $form->old);
-        $this->products->save($product);
-    }
-
-    public function changeQuantity($id, QuantityForm $form): void
-    {
-        $product = $this->products->get($id);
-        $product->changeQuantity($form->quantity);
         $this->products->save($product);
     }
 
@@ -226,8 +215,7 @@ class ProductManageService
         $product->addModification(
             $form->code,
             $form->name,
-            $form->price,
-            $form->quantity
+            $form->price
         );
         $this->products->save($product);
     }
@@ -239,8 +227,7 @@ class ProductManageService
             $modificationId,
             $form->code,
             $form->name,
-            $form->price,
-            $form->quantity
+            $form->price
         );
         $this->products->save($product);
     }
