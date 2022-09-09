@@ -2,6 +2,12 @@
 
 namespace common\bootstrap;
 
+use Elastic\Elasticsearch\Client;
+use Elastic\Elasticsearch\ClientBuilder;
+use shop\cart\Cart;
+use shop\cart\cost\calculator\DynamicCost;
+use shop\cart\cost\calculator\SimpleCost;
+use shop\cart\storage\SessionStorage;
 use shop\services\ContactService;
 use yii\base\BootstrapInterface;
 use yii\caching\Cache;
@@ -12,6 +18,10 @@ class SetUp implements BootstrapInterface
     public function bootstrap($app): void
     {
         $container = \Yii::$container;
+
+        $container->setSingleton(Client::class, function () {
+            return ClientBuilder::create()->build();
+        });
 
         $container->setSingleton(MailerInterface::class, function () use ($app) {
             return $app->mailer;
@@ -24,5 +34,12 @@ class SetUp implements BootstrapInterface
         $container->setSingleton(ContactService::class, [], [
             $app->params['adminEmail']
         ]);
+
+        $container->setSingleton(Cart::class, function () {
+            return new Cart(
+                new SessionStorage('cart', \Yii::$app->session),
+                new DynamicCost(new SimpleCost())
+            );
+        });
     }
 }

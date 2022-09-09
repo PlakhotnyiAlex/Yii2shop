@@ -9,6 +9,7 @@ use shop\entities\Shop\Brand;
 use shop\entities\Shop\Category;
 use shop\entities\Shop\Product\queries\ProductQuery;
 use shop\entities\Shop\Tag;
+use shop\entities\User\WishlistItem;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 use yii\db\Exception;
@@ -109,49 +110,6 @@ class Product extends ActiveRecord
     {
         return $this->status == self::STATUS_DRAFT;
     }
-    public function isAvailable(): bool
-    {
-        return $this->quantity > 0;
-    }
-
-    public function canChangeQuantity(): bool
-    {
-        return !$this->modifications;
-    }
-
-    public function canBeCheckout($modificationId, $quantity): bool
-    {
-        if ($modificationId) {
-            return $quantity <= $this->getModification($modificationId)->quantity;
-        }
-        return $quantity <= $this->quantity;
-    }
-
-    public function checkout($modificationId, $quantity): void
-    {
-        if ($modificationId) {
-            $modifications = $this->modifications;
-            foreach ($modifications as $i => $modification) {
-                if ($modification->isIdEqualTo($modificationId)) {
-                    $modification->checkout($quantity);
-                    $this->updateModifications($modifications);
-                    return;
-                }
-            }
-        }
-        if ($quantity > $this->quantity) {
-            throw new \DomainException('Only ' . $this->quantity . ' items are available.');
-        }
-        $this->setQuantity($this->quantity - $quantity);
-    }
-
-    private function setQuantity($quantity): void
-    {
-        if ($this->quantity == 0 && $quantity > 0) {
-            $this->recordEvent(new ProductAppearedInStock($this));
-        }
-        $this->quantity = $quantity;
-    }
 
     public function getSeoTitle(): string
     {
@@ -190,6 +148,16 @@ class Product extends ActiveRecord
         foreach ($this->modifications as $modification) {
             if ($modification->isIdEqualTo($id)) {
                 return $modification;
+            }
+        }
+        throw new \DomainException('Modification is not found.');
+    }
+
+    public function getModificationPrice($id): int
+    {
+        foreach ($this->modifications as $modification) {
+            if ($modification->isIdEqualTo($id)) {
+                return $modification->price ?: $this->price_new;
             }
         }
         throw new \DomainException('Modification is not found.');
@@ -529,6 +497,11 @@ class Product extends ActiveRecord
     public function getReviews(): ActiveQuery
     {
         return $this->hasMany(Review::class, ['product_id' => 'id']);
+    }
+
+    public function getWishlistItems(): ActiveQuery
+    {
+        return $this->hasMany(WishlistItem::class, ['product_id' => 'id']);
     }
 
     ##########################

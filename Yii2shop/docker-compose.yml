@@ -1,6 +1,5 @@
 version: '3.2'
 
-# Создаем общую сеть default для всех контейнеров
 services:
   frontend-php:
     build: frontend
@@ -44,6 +43,8 @@ services:
     ports:
         - "3306:80"
       # Задаем пароль для root пользователя
+    depends_on:
+      - elasticsearch
     environment:
       - MYSQL_ROOT_PASSWORD=root
     volumes:
@@ -67,4 +68,31 @@ services:
       - ./static:/app/static
       - ./nginx/static/log/:/app/log/
       - ./nginx/static/conf.d/:/etc/nginx/conf.d/
-
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.6
+    restart: always
+    environment:
+      - node.name=elasticsearch
+      - cluster.name=elastic-cluster
+      - xpack.security.enabled=false
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - ./es/esdata:/usr/share/elasticsearch/data
+    ports:
+      - '8086:9200'
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.17.6
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch
+    depends_on:
+      - elasticsearch
+    volumes:
+      - ./es/kibana/kibana.yml:/usr/share/kibana/config/kibana.yml
+    ports:
+      - '8087:80'

@@ -104,7 +104,7 @@ MagnificPopupAsset::register($this);
     </div>
     <div class="col-sm-4">
         <p class="btn-group">
-            <button type="button" data-toggle="tooltip" class="btn btn-default" title="Add to Wish List" onclick="wishlist.add('47');"><i class="fa fa-heart"></i></button>
+            <button type="button" data-toggle="tooltip" class="btn btn-default" title="Add to Wish List" href="<?= Url::to(['/cabinet/wishlist/add', 'id' => $product->id]) ?>" data-method="post"><i class="fa fa-heart"></i></button>
             <button type="button" data-toggle="tooltip" class="btn btn-default" title="Compare this Product" onclick="compare.add('47');"><i class="fa fa-exchange"></i></button>
         </p>
         <h1><?= Html::encode($product->name) ?></h1>
@@ -127,9 +127,14 @@ MagnificPopupAsset::register($this);
             <hr>
             <h3>Available Options</h3>
 
-            <?php $form = ActiveForm::begin() ?>
+            <?php $form = ActiveForm::begin([
+                'action' => ['/shop/cart/add', 'id' => $product->id],
+            ]) ?>
 
-            <?= $form->field($cartForm, 'modification')->dropDownList($cartForm->modificationsList(), ['prompt' => '--- Select ---']) ?>
+            <?php if ($modifications = $cartForm->modificationsList()): ?>
+                <?= $form->field($cartForm, 'modification')->dropDownList($modifications, ['prompt' => '--- Select ---']) ?>
+            <?php endif; ?>
+
             <?= $form->field($cartForm, 'quantity')->textInput() ?>
 
             <div class="form-group">
@@ -154,63 +159,6 @@ MagnificPopupAsset::register($this);
         </div>
     </div>
 </div>
-
-<!--
-<script type="text/javascript">
-    $('#button-cart').on('click', function() {
-        $.ajax({
-            url: 'index.php?route=checkout/cart/add',
-            type: 'post',
-            data: $('#product input[type=\'text\'], #product input[type=\'hidden\'], #product input[type=\'radio\']:checked, #product input[type=\'checkbox\']:checked, #product select, #product textarea'),
-            dataType: 'json',
-            beforeSend: function() {
-                $('#button-cart').button('loading');
-            },
-            complete: function() {
-                $('#button-cart').button('reset');
-            },
-            success: function(json) {
-                $('.alert, .text-danger').remove();
-                $('.form-group').removeClass('has-error');
-
-                if (json['error']) {
-                    if (json['error']['option']) {
-                        for (i in json['error']['option']) {
-                            var element = $('#input-option' + i.replace('_', '-'));
-
-                            if (element.parent().hasClass('input-group')) {
-                                element.parent().after('<div class="text-danger">' + json['error']['option'][i] + '</div>');
-                            } else {
-                                element.after('<div class="text-danger">' + json['error']['option'][i] + '</div>');
-                            }
-                        }
-                    }
-
-                    if (json['error']['recurring']) {
-                        $('select[name=\'recurring_id\']').after('<div class="text-danger">' + json['error']['recurring'] + '</div>');
-                    }
-
-                    // Highlight any found errors
-                    $('.text-danger').parent().addClass('has-error');
-                }
-
-                if (json['success']) {
-                    $('.breadcrumb').after('<div class="alert alert-success">' + json['success'] + '<button type="button" class="close" data-dismiss="alert">&times;</button></div>');
-
-                    $('#cart > button').html('<span id="cart-total"><i class="fa fa-shopping-cart"></i> ' + json['total'] + '</span>');
-
-                    $('html, body').animate({ scrollTop: 0 }, 'slow');
-
-                    $('#cart > ul').load('index.php?route=common/cart/info ul li');
-                }
-            },
-            error: function(xhr, ajaxOptions, thrownError) {
-                alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
-            }
-        });
-    });
-</script>
--->
 
 <?php $js = <<<EOD
 $('.thumbnails').magnificPopup({
