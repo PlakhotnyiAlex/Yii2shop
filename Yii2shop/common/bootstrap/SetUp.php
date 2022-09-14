@@ -20,7 +20,7 @@ class SetUp implements BootstrapInterface
         $container = \Yii::$container;
 
         $container->setSingleton(Client::class, function () {
-            return ClientBuilder::create()->build();
+            return ClientBuilder::create()->setHosts(['elasticsearch:9200'])->build();
         });
 
         $container->setSingleton(MailerInterface::class, function () use ($app) {

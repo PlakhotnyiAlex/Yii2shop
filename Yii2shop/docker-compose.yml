@@ -32,7 +32,7 @@ services:
   backend:
     image: nginx
     ports:
-      - '8081:80'
+      - '127.0.0.1:8081:80'
     volumes:
       - ./:/app
       - ./nginx/back/conf.d/:/etc/nginx/conf.d/
@@ -41,7 +41,7 @@ services:
   mysql:
     image: mysql:8
     ports:
-        - "3306:80"
+        - "3307:80"
       # Задаем пароль для root пользователя
     depends_on:
       - elasticsearch
@@ -78,6 +78,7 @@ services:
       - discovery.type=single-node
       - bootstrap.memory_lock=true
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - ingest.geoip.downloader.enabled=false
     ulimits:
       memlock:
         soft: -1
@@ -89,10 +90,10 @@ services:
   kibana:
     image: docker.elastic.co/kibana/kibana:7.17.6
     environment:
-      - ELASTICSEARCH_HOSTS=http://elasticsearch
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
     depends_on:
       - elasticsearch
     volumes:
       - ./es/kibana/kibana.yml:/usr/share/kibana/config/kibana.yml
     ports:
-      - '8087:80'
+      - '5601:5601'
