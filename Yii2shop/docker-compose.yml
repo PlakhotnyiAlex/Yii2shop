@@ -86,7 +86,7 @@ services:
     volumes:
       - ./es/esdata:/usr/share/elasticsearch/data
     ports:
-      - '8086:9200'
+      - '9200:9200'
   kibana:
     image: docker.elastic.co/kibana/kibana:7.17.6
     environment:

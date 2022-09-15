@@ -10,7 +10,7 @@ use yii\bootstrap4\ActiveForm;
 use yii\grid\ActionColumn;
 use yii\grid\GridView;
 use yii\helpers\ArrayHelper;
-use yii\bootstrap4\Html;
+use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
@@ -120,13 +120,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="box">
         <div class="box-header with-border">Description</div>
         <div class="box-body">
-            <?= Yii::$app->formatter->asHtml($product->description, [
-                'Attr.AllowedRel' => array('nofollow'),
-                'HTML.SafeObject' => true,
-                'Output.FlashCompat' => true,
-                'HTML.SafeIframe' => true,
-                'URI.SafeIframeRegexp'=>'%^(https?:)?//(www\.youtube(?:-nocookie)?\.com/embed/|player\.vimeo\.com/video/)%',
-            ]) ?>
+            <?= Yii::$app->formatter->asNtext($product->description) ?>
         </div>
     </div>
 
@@ -184,34 +178,35 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="box" id="photos">
         <div class="box-header with-border">Photos</div>
         <div class="box-body">
-                <div class="row">
-                    <?php foreach ($product->photos as $photo): ?>
-                        <div class="col-md-4 col-xs-1" style="text-align: center">
-                            <div class="btn-group">
-                                <?= Html::a('<span class="fa fa-arrow-left"></span>', ['move-photo-up', 'id' => $product->id, 'photo_id' => $photo->id], [
-                                    'class' => 'btn btn-default',
-                                    'data-method' => 'post',
-                                ]); ?>
-                                <?= Html::a('<span class="fa fa-trash"></span>', ['delete-photo', 'id' => $product->id, 'photo_id' => $photo->id], [
-                                    'class' => 'btn btn-default',
-                                    'data-method' => 'post',
-                                    'data-confirm' => 'Remove photo?',
-                                ]); ?>
-                                <?= Html::a('<span class="fa fa-arrow-right"></span>', ['move-photo-down', 'id' => $product->id, 'photo_id' => $photo->id], [
-                                    'class' => 'btn btn-default',
-                                    'data-method' => 'post',
-                                ]); ?>
-                            </div>
-                            <div>
-                                <?= Html::a(
-                                    Html::img($photo->getThumbFileUrl('file', 'thumb')),
-                                    $photo->getUploadedFileUrl('file'),
-                                    ['class' => 'img-thumbnail', 'target' => '_blank']
-                                ) ?>
-                            </div>
+
+            <div class="row">
+                <?php foreach ($product->photos as $photo): ?>
+                    <div class="col-md-2 col-xs-3" style="text-align: center">
+                        <div class="btn-group">
+                            <?= Html::a('<span class="glyphicon glyphicon-arrow-left"></span>', ['move-photo-up', 'id' => $product->id, 'photo_id' => $photo->id], [
+                                'class' => 'btn btn-default',
+                                'data-method' => 'post',
+                            ]); ?>
+                            <?= Html::a('<span class="glyphicon glyphicon-remove"></span>', ['delete-photo', 'id' => $product->id, 'photo_id' => $photo->id], [
+                                'class' => 'btn btn-default',
+                                'data-method' => 'post',
+                                'data-confirm' => 'Remove photo?',
+                            ]); ?>
+                            <?= Html::a('<span class="glyphicon glyphicon-arrow-right"></span>', ['move-photo-down', 'id' => $product->id, 'photo_id' => $photo->id], [
+                                'class' => 'btn btn-default',
+                                'data-method' => 'post',
+                            ]); ?>
                         </div>
-                    <?php endforeach; ?>
-                </div>
+                        <div>
+                            <?= Html::a(
+                                Html::img($photo->getThumbFileUrl('file', 'thumb')),
+                                $photo->getUploadedFileUrl('file'),
+                                ['class' => 'thumbnail', 'target' => '_blank']
+                            ) ?>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
 
             <?php $form = ActiveForm::begin([
                 'options' => ['enctype'=>'multipart/form-data'],

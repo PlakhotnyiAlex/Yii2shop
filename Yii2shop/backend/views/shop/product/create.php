@@ -1,7 +1,6 @@
 <?php
 
 use kartik\file\FileInput;
-use mihaildev\ckeditor\CKEditor;
 use yii\helpers\Html;
 use yii\bootstrap4\ActiveForm;
 
@@ -32,7 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
                 </div>
             </div>
-        <?= $form->field($model, 'description')->widget(CKEditor::class) ?>
+            <?= $form->field($model, 'description')->textarea(['rows' => 10]) ?>
         </div>
     </div>
 

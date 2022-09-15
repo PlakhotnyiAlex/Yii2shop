@@ -4,7 +4,7 @@
 /* @var $order shop\entities\Shop\Order\Order */
 /* @var $model shop\forms\manage\Shop\Order\OrderEditForm */
 
-use yii\bootstrap\ActiveForm;
+use yii\bootstrap4\ActiveForm;
 use yii\helpers\Html;
 
 $this->title = 'Update Order: ' . $order->id;

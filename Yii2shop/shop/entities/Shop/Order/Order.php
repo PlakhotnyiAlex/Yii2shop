@@ -99,16 +99,6 @@ class Order extends ActiveRecord
         return $this->cost + $this->delivery_cost;
     }
 
-    public function canBePaid(): bool
-    {
-        return $this->isNew();
-    }
-
-    public function isNew(): bool
-    {
-        return $this->current_status == Status::NEW;
-    }
-
     public function isPaid(): bool
     {
         return $this->current_status == Status::PAID;
