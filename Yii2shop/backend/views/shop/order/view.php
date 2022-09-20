@@ -92,7 +92,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <thead>
                     <tr>
                         <th class="text-left">Date</th>
-                        <th class="text-left">Staus</th>
+                        <th class="text-left">Status</th>
                     </tr>
                     </thead>
                     <tbody>

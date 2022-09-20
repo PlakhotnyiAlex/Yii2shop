@@ -1,6 +1,6 @@
 <?php
 
-namespace shop\useCases\Shop;
+namespace shop\services\Shop;
 
 use shop\cart\Cart;
 use shop\cart\CartItem;
@@ -8,7 +8,7 @@ use shop\entities\Shop\Order\CustomerData;
 use shop\entities\Shop\Order\DeliveryData;
 use shop\entities\Shop\Order\Order;
 use shop\entities\Shop\Order\OrderItem;
-use shop\forms\Shop\Order\OrderForm;
+use shop\forms\manage\Shop\Order\OrderForm;
 use shop\repositories\Shop\DeliveryMethodRepository;
 use shop\repositories\Shop\OrderRepository;
 use shop\repositories\Shop\ProductRepository;

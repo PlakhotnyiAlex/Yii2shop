@@ -2,7 +2,7 @@
 
 /* @var $this yii\web\View */
 /* @var $cart \shop\cart\Cart */
-/* @var $model \shop\forms\Shop\Order\OrderForm */
+/* @var $model \shop\forms\manage\Shop\Order\OrderForm */
 
 use shop\helpers\PriceHelper;
 use shop\helpers\WeightHelper;
