@@ -3,3 +3,4 @@ server.shutdownTimeout: "5s"
 elasticsearch.hosts: [ "http://elasticsearch:9200" ]
 monitoring.ui.container.elasticsearch.enabled: true
 xpack.security.encryptionKey: "askdsadsa_dk_a1223_SAD_sss22_ddrggfk2323k343"
+csp.strict: false

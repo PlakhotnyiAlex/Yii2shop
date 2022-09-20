@@ -2,8 +2,8 @@
 
 namespace console\controllers;
 
+use Elastic\Elasticsearch\Exception\ClientResponseException;
 use Elastic\Elasticsearch\Client;
-use Elastic\Elasticsearch\Exception\MissingParameterException;
 use shop\entities\Shop\Category;
 use shop\entities\Shop\Product\Product;
 use shop\entities\Shop\Product\Value;
@@ -33,7 +33,7 @@ class SearchController extends Controller
             $this->client->indices()->delete([
                 'index' => 'shop'
             ]);
-        } catch (MissingParameterException $e) {
+        } catch (ClientResponseException $e) {
             $this->stdout('Index is empty' . PHP_EOL);
         }
 
@@ -43,7 +43,6 @@ class SearchController extends Controller
             'index' => 'shop',
             'body' => [
                 'mappings' => [
-                    'products' => [
                         '_source' => [
                             'enabled' => true,
                         ],
@@ -87,8 +86,8 @@ class SearchController extends Controller
                                 ]
                             ]
                         ]
-                    ]
                 ]
+
             ]
         ]);
 
@@ -144,7 +143,6 @@ class SearchController extends Controller
             'index' => 'shop',
             'body' => [
                 'mappings' => [
-                    'products' => [
                         '_source' => [
                             'enabled' => true,
                         ],
@@ -188,7 +186,6 @@ class SearchController extends Controller
                                 ]
                             ]
                         ]
-                    ]
                 ]
             ]
         ]);
