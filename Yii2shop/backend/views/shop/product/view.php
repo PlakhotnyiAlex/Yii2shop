@@ -120,7 +120,13 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="box">
         <div class="box-header with-border">Description</div>
         <div class="box-body">
-            <?= Yii::$app->formatter->asNtext($product->description) ?>
+            <?= Yii::$app->formatter->asHtml($product->description, [
+                'Attr.AllowedRel' => array('nofollow'),
+                'HTML.SafeObject' => true,
+                'Output.FlashCompat' => true,
+                'HTML.SafeIframe' => true,
+                'URI.SafeIframeRegexp'=>'%^(https?:)?//(www\.youtube(?:-nocookie)?\.com/embed/|player\.vimeo\.com/video/)%',
+            ]) ?>
         </div>
     </div>
 
@@ -183,16 +189,16 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?php foreach ($product->photos as $photo): ?>
                     <div class="col-md-2 col-xs-3" style="text-align: center">
                         <div class="btn-group">
-                            <?= Html::a('<span class="glyphicon glyphicon-arrow-left"></span>', ['move-photo-up', 'id' => $product->id, 'photo_id' => $photo->id], [
+                            <?= Html::a('<span class="fa fa-arrow-left"></span>', ['move-photo-up', 'id' => $product->id, 'photo_id' => $photo->id], [
                                 'class' => 'btn btn-default',
                                 'data-method' => 'post',
                             ]); ?>
-                            <?= Html::a('<span class="glyphicon glyphicon-remove"></span>', ['delete-photo', 'id' => $product->id, 'photo_id' => $photo->id], [
+                            <?= Html::a('<span class="fa fa-trash"></span>', ['delete-photo', 'id' => $product->id, 'photo_id' => $photo->id], [
                                 'class' => 'btn btn-default',
                                 'data-method' => 'post',
                                 'data-confirm' => 'Remove photo?',
                             ]); ?>
-                            <?= Html::a('<span class="glyphicon glyphicon-arrow-right"></span>', ['move-photo-down', 'id' => $product->id, 'photo_id' => $photo->id], [
+                            <?= Html::a('<span class="fa fa-arrow-right"></span>', ['move-photo-down', 'id' => $product->id, 'photo_id' => $photo->id], [
                                 'class' => 'btn btn-default',
                                 'data-method' => 'post',
                             ]); ?>

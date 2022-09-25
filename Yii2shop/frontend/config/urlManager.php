@@ -10,11 +10,16 @@ return [
     'cache' => false,
     'rules' => [
         '' => 'site/index',
-        '<_a:about>' => 'site/<_a>',
         'contact' => 'contact/index',
         'signup' => 'auth/signup/request',
         'signup/<_a:[\w-]+>' => 'auth/signup/<_a>',
         '<_a:login|logout>' => 'auth/auth/<_a>',
+
+        'blog' => 'blog/post/index',
+        'blog/tag/<slug:[\w\-]+>' => 'blog/post/tag',
+        'blog/<id:\d+>' => 'blog/post/post',
+        'blog/<id:\d+>/comment' => 'blog/post/comment',
+        'blog/<slug:[\w\-]+>' => 'blog/post/category',
 
         'catalog' => 'shop/catalog/index',
         ['class' => 'frontend\urls\CategoryUrlRule'],
@@ -25,6 +30,8 @@ return [
         'cabinet/<_c:[\w\-]+>/<id:\d+>' => 'cabinet/<_c>/view',
         'cabinet/<_c:[\w\-]+>/<_a:[\w-]+>' => 'cabinet/<_c>/<_a>',
         'cabinet/<_c:[\w\-]+>/<id:\d+>/<_a:[\w\-]+>' => 'cabinet/<_c>/<_a>',
+
+        ['class' => 'frontend\urls\PageUrlRule'],
 
         '<_c:[\w\-]+>' => '<_c>/index',
         '<_c:[\w\-]+>/<id:\d+>' => '<_c>/view',

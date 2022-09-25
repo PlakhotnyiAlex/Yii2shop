@@ -4,8 +4,8 @@ namespace frontend\urls;
 
 use shop\entities\Page;
 use shop\readModels\PageReadRepository;
-use yii\base\InvalidArgumentException;
 use yii\base\BaseObject;
+use yii\base\InvalidArgumentException;
 use yii\caching\Cache;
 use yii\helpers\ArrayHelper;
 use yii\web\UrlNormalizerRedirectException;

@@ -1,14 +1,14 @@
 <?php
 
-use yii\helpers\Html;
-use yii\bootstrap4\ActiveForm;
 /* @var $this yii\web\View */
-/* @var $model shop\entities\User\User */
+/* @var $model shop\forms\manage\User\UserCreateForm */
+
+use yii\bootstrap4\ActiveForm;
+use yii\helpers\Html;
 
 $this->title = 'Create User';
 $this->params['breadcrumbs'][] = ['label' => 'Users', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
-?>
 ?>
 <div class="user-create">
 
@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= $form->field($model, 'username')->textInput(['maxLength' => true]) ?>
     <?= $form->field($model, 'email')->textInput(['maxLength' => true]) ?>
     <?= $form->field($model, 'password')->passwordInput(['maxLength' => true]) ?>
-
+    <?= $form->field($model, 'role')->dropDownList($model->rolesList()) ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-primary']) ?>

@@ -7,11 +7,12 @@ use Elastic\Elasticsearch\ClientBuilder;
 use shop\cart\Cart;
 use shop\cart\cost\calculator\DynamicCost;
 use shop\cart\cost\calculator\SimpleCost;
-use shop\cart\storage\SessionStorage;
+use shop\cart\storage\CookieStorage;
 use shop\services\ContactService;
 use yii\base\BootstrapInterface;
 use yii\caching\Cache;
 use yii\mail\MailerInterface;
+use yii\rbac\ManagerInterface;
 
 class SetUp implements BootstrapInterface
 {
@@ -30,6 +31,9 @@ class SetUp implements BootstrapInterface
         $container->setSingleton(Cache::class, function () use ($app) {
             return $app->cache;
         });
+        $container->setSingleton(ManagerInterface::class, function () use ($app) {
+            return $app->authManager;
+        });
 
         $container->setSingleton(ContactService::class, [], [
             $app->params['adminEmail']
@@ -37,7 +41,7 @@ class SetUp implements BootstrapInterface
 
         $container->setSingleton(Cart::class, function () {
             return new Cart(
-                new SessionStorage('cart', \Yii::$app->session),
+                new CookieStorage('cart', 3600),
                 new DynamicCost(new SimpleCost())
             );
         });

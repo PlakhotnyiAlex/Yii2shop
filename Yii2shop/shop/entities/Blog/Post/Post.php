@@ -5,7 +5,6 @@ namespace shop\entities\Blog\Post;
 use shop\entities\Blog\Post\Comment;
 use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
 use shop\entities\behaviors\MetaBehavior;
-use shop\entities\Blog\Post\queries\CommentQuery;
 use shop\entities\Blog\Post\queries\PostQuery;
 use shop\entities\Meta;
 use shop\entities\Blog\Category;
