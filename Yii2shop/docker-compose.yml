@@ -32,7 +32,7 @@ services:
   backend:
     image: nginx
     ports:
-      - '127.0.0.1:8081:80'
+      - '8081:80'
     volumes:
       - ./:/app
       - ./nginx/back/conf.d/:/etc/nginx/conf.d/
@@ -97,3 +97,21 @@ services:
       - ./es/kibana/kibana.yml:/usr/share/kibana/config/kibana.yml
     ports:
       - '5601:5601'
+  api-php:
+    build: api
+    depends_on:
+      - mysql
+    volumes:
+      # Re-use local composer cache via host-volume
+      - ~/.composer-docker/cache:/root/.composer/cache:delegated
+      # Mount source-code for development
+      - ./:/app
+  api:
+    image: nginx
+    ports:
+      - '8090:80'
+    volumes:
+      - ./:/app
+      - ./nginx/api/conf.d/:/etc/nginx/conf.d/
+    depends_on:
+      - api-php

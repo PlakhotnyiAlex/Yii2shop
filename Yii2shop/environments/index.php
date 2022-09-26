@@ -32,6 +32,8 @@ return [
     'Development' => [
         'path' => 'dev',
         'setWritable' => [
+            'common/runtime',
+            'api/runtime',
             'backend/runtime',
             'backend/web/assets',
             'console/runtime',
@@ -53,6 +55,7 @@ return [
         'setWritable' => [
             'backend/runtime',
             'backend/web/assets',
+            'api/runtime',
             'console/runtime',
             'frontend/runtime',
             'frontend/web/assets',
