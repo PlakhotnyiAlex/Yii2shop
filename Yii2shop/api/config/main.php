@@ -15,6 +15,7 @@ return [
     ],
     'controllerNamespace' => 'api\controllers',
     'bootstrap' => [
+        'oauth2',
         'log',
         'common\bootstrap\SetUp',
         [
@@ -79,7 +80,25 @@ return [
             'showScriptName' => false,
             'rules' => [
                 '' => 'site/index',
+                'profile' => 'user/profile/index',
                 'POST oauth2/<action:\w+>' => 'oauth2/rest/<action>',
+
+                'GET shop/products/<id:\d+>' => 'shop/product/view',
+                'GET shop/products/category/<id:\d+>' => 'shop/product/category',
+                'GET shop/products/brand/<id:\d+>' => 'shop/product/brand',
+                'GET shop/products/tag/<id:\d+>' => 'shop/product/tag',
+                'GET shop/products' => 'shop/product/index',
+                'shop/products/<id:\d+>/cart' => 'shop/cart/add',
+                'shop/products/<id:\d+>/wish' => 'shop/wishlist/add',
+
+                'GET shop/cart' => 'shop/cart/index',
+                'DELETE shop/cart' => 'shop/cart/clear',
+                'shop/cart/checkout' => 'shop/checkout/index',
+                'PUT shop/cart/<id:\w+>/quantity' => 'shop/cart/quantity',
+                'DELETE shop/cart/<id:\w+>' => 'shop/cart/delete',
+
+                'GET shop/wishlist' => 'shop/wishlist/index',
+                'DELETE shop/wishlist/<id:\d+>' => 'shop/wishlist/delete',
             ],
         ],
     ],

@@ -1831,3 +1831,5 @@
 172.19.0.1 - - [23/Sep/2022:11:18:31 +0000] "GET /cache/products/4/catalog_origin_9.jpg HTTP/1.0" 200 325766 "http://shop.d/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36"
 172.19.0.1 - - [23/Sep/2022:11:18:31 +0000] "GET /cache/products/4/catalog_origin_10.jpg HTTP/1.0" 200 235972 "http://shop.d/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36"
 172.19.0.1 - - [23/Sep/2022:11:36:35 +0000] "GET /cache/products/4/cart_widget_list_9.jpg HTTP/1.0" 200 4646 "http://shop.d/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36"
+172.19.0.1 - - [28/Sep/2022:09:00:09 +0000] "GET /cache/posts/admin_2.jpeg HTTP/1.0" 200 7230 "http://backend.shop.d/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36"
+172.19.0.1 - - [28/Sep/2022:09:00:09 +0000] "GET /cache/posts/admin_3.png HTTP/1.0" 200 16979 "http://backend.shop.d/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36"

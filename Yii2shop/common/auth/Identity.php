@@ -8,7 +8,6 @@ use shop\entities\User\User;
 use shop\readModels\UserReadRepository;
 use Yii;
 use yii\web\IdentityInterface;
-
 class Identity implements IdentityInterface, UserCredentialsInterface
 {
     private $user;
