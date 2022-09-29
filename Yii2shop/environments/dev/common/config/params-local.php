@@ -7,4 +7,5 @@ return [
     'staticHostInfo' => 'http://static.shop.d',
     'mailChimpKey' => '<your-key>',
     'mailChimpListId' => '',
+    'smsRuKey' => '',
 ];

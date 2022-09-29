@@ -15,4 +15,5 @@ return [
     'staticPath' => dirname(__DIR__, 2) . '/static',
     'mailChimpKey' => '66bc3e3a4e9d952f0fafbe821e21c6f2-us10',
     'mailChimpListId' => '8e0bbc7a33',
+    'smsRuKey' => '',
 ];
