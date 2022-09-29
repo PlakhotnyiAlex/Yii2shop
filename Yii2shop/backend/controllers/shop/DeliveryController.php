@@ -3,7 +3,7 @@
 namespace backend\controllers\shop;
 
 use shop\forms\manage\Shop\DeliveryMethodForm;
-use shop\services\manage\Shop\DeliveryMethodManageService;
+use shop\useCases\manage\Shop\DeliveryMethodManageService;
 use Yii;
 use shop\entities\Shop\DeliveryMethod;
 use backend\forms\Shop\DeliveryMethodSearch;
@@ -15,7 +15,7 @@ class DeliveryController extends Controller
 {
     private $service;
 
-    public function __construct($id, $module, DeliveryMethodManageService $service, $config = [])
+    public function __construct($id, $module, \shop\useCases\manage\Shop\DeliveryMethodManageService $service, $config = [])
     {
         parent::__construct($id, $module, $config);
         $this->service = $service;

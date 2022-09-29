@@ -10,7 +10,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use Yii;
 use shop\forms\manage\User\UserEditForm;
-use shop\services\manage\UserManageService;
+use shop\useCases\manage\UserManageService;
 
 
 /**

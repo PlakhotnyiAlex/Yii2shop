@@ -3,7 +3,7 @@
 namespace frontend\controllers\cabinet;
 
 use shop\forms\User\ProfileEditForm;
-use shop\services\cabinet\ProfileService;
+use shop\useCases\cabinet\ProfileService;
 use Yii;
 use shop\entities\User\User;
 use yii\web\Controller;

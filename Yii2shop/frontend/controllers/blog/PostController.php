@@ -6,7 +6,7 @@ use shop\forms\Blog\CommentForm;
 use shop\readModels\Blog\CategoryReadRepository;
 use shop\readModels\Blog\PostReadRepository;
 use shop\readModels\Blog\TagReadRepository;
-use shop\services\Blog\CommentService;
+use shop\useCases\Blog\CommentService;
 use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -23,7 +23,7 @@ class PostController extends Controller
     public function __construct(
         $id,
         $module,
-        CommentService $service,
+        \shop\useCases\Blog\CommentService $service,
         PostReadRepository $posts,
         CategoryReadRepository $categories,
         TagReadRepository $tags,

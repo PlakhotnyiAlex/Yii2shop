@@ -4,7 +4,7 @@ namespace api\controllers\shop;
 
 use shop\cart\Cart;
 use shop\forms\Shop\Order\OrderForm;
-use shop\services\Shop\OrderService;
+use shop\useCases\Shop\OrderService;
 use Yii;
 use yii\helpers\Url;
 use yii\rest\Controller;
@@ -15,7 +15,7 @@ class CheckoutController extends Controller
     private $cart;
     private $service;
 
-    public function __construct($id, $module, OrderService $service, Cart $cart, $config = [])
+    public function __construct($id, $module, \shop\useCases\Shop\OrderService $service, Cart $cart, $config = [])
     {
         parent::__construct($id, $module, $config);
         $this->cart = $cart;

@@ -4,7 +4,7 @@ namespace backend\controllers\shop;
 
 use shop\forms\manage\Shop\Order\OrderEditForm;
 use shop\forms\manage\Shop\Order\OrderForm;
-use shop\services\manage\Shop\OrderManageService;
+use shop\useCases\manage\Shop\OrderManageService;
 use Yii;
 use shop\entities\Shop\Order\Order;
 use backend\forms\Shop\OrderSearch;
@@ -16,7 +16,7 @@ class OrderController extends Controller
 {
     private $service;
 
-    public function __construct($id, $module, OrderManageService $service, $config = [])
+    public function __construct($id, $module, \shop\useCases\manage\Shop\OrderManageService $service, $config = [])
     {
         parent::__construct($id, $module, $config);
         $this->service = $service;

@@ -1,7 +1,7 @@
 <?php
 namespace frontend\controllers\auth;
 
-use shop\services\auth\AuthService;
+use shop\useCases\auth\AuthService;
 use Yii;
 use yii\web\Controller;
 use shop\forms\auth\LoginForm;

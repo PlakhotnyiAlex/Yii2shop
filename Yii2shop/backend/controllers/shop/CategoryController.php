@@ -3,7 +3,7 @@
 namespace backend\controllers\shop;
 
 use shop\forms\manage\Shop\CategoryForm;
-use shop\services\manage\Shop\CategoryManageService;
+use shop\useCases\manage\Shop\CategoryManageService;
 use Yii;
 use shop\entities\Shop\Category;
 use backend\forms\Shop\CategorySearch;
@@ -15,7 +15,7 @@ class CategoryController extends Controller
 {
     private $service;
 
-    public function __construct($id, $module, CategoryManageService $service, $config = [])
+    public function __construct($id, $module, \shop\useCases\manage\Shop\CategoryManageService $service, $config = [])
     {
         parent::__construct($id, $module, $config);
         $this->service = $service;

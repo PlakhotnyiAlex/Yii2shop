@@ -1,6 +1,6 @@
 <?php
 
-namespace shop\services\cabinet;
+namespace shop\useCases\cabinet;
 
 use shop\forms\User\ProfileEditForm;
 use shop\repositories\UserRepository;

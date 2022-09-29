@@ -8,7 +8,7 @@ use shop\forms\manage\Shop\Product\PhotosForm;
 use shop\forms\manage\Shop\Product\PriceForm;
 use shop\forms\manage\Shop\Product\ProductCreateForm;
 use shop\forms\manage\Shop\Product\ProductEditForm;
-use shop\services\manage\Shop\ProductManageService;
+use shop\useCases\manage\Shop\ProductManageService;
 use Yii;
 use shop\entities\Shop\Product\Product;
 use backend\forms\Shop\ProductSearch;
@@ -21,7 +21,7 @@ class ProductController extends Controller
 {
     private $service;
 
-    public function __construct($id, $module, ProductManageService $service, $config = [])
+    public function __construct($id, $module, \shop\useCases\manage\Shop\ProductManageService $service, $config = [])
     {
         parent::__construct($id, $module, $config);
         $this->service = $service;

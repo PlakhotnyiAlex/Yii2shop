@@ -3,7 +3,7 @@
 namespace frontend\controllers\cabinet;
 
 use shop\readModels\Shop\ProductReadRepository;
-use shop\services\cabinet\WishlistService;
+use shop\useCases\cabinet\WishlistService;
 use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
@@ -15,7 +15,7 @@ class WishlistController extends Controller
     private $service;
     private $products;
 
-    public function __construct($id, $module, WishlistService $service, ProductReadRepository $products, $config = [])
+    public function __construct($id, $module, \shop\useCases\cabinet\WishlistService $service, ProductReadRepository $products, $config = [])
     {
         parent::__construct($id, $module, $config);
         $this->service = $service;

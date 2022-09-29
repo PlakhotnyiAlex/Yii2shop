@@ -4,7 +4,7 @@ namespace frontend\controllers\shop;
 
 use shop\forms\Shop\AddToCartForm;
 use shop\readModels\Shop\ProductReadRepository;
-use shop\services\Shop\CartService;
+use shop\useCases\Shop\CartService;
 use Yii;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
@@ -17,7 +17,7 @@ class CartController extends Controller
     private $products;
     private $service;
 
-    public function __construct($id, $module, CartService $service, ProductReadRepository $products, $config = [])
+    public function __construct($id, $module, \shop\useCases\Shop\CartService $service, ProductReadRepository $products, $config = [])
     {
         parent::__construct($id, $module, $config);
         $this->products = $products;
