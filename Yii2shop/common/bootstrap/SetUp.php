@@ -8,6 +8,11 @@ use shop\cart\Cart;
 use shop\cart\cost\calculator\DynamicCost;
 use shop\cart\cost\calculator\SimpleCost;
 use shop\cart\storage\HybridStorage;
+use shop\dispatchers\DeferredEventDispatcher;
+use shop\dispatchers\EventDispatcher;
+use shop\dispatchers\SimpleEventDispatcher;
+use shop\listeners\User\UserSignupConfirmedListener;
+use shop\listeners\User\UserSignupRequestedListener;
 use shop\services\newsletter\MailChimp;
 use shop\services\newsletter\Newsletter;
 use shop\services\sms\LoggedSender;
@@ -15,9 +20,12 @@ use shop\services\sms\SmsRu;
 use shop\services\sms\SmsSender;
 use shop\services\yandex\ShopInfo;
 use shop\services\yandex\YandexMarket;
+use shop\entities\User\events\UserSignUpConfirmed;
+use shop\entities\User\events\UserSignUpRequested;
 use shop\useCases\ContactService;
 use yii\base\BootstrapInterface;
 use yii\caching\Cache;
+use yii\di\Container;
 use yii\mail\MailerInterface;
 use yii\rbac\ManagerInterface;
 
@@ -67,6 +75,14 @@ class SetUp implements BootstrapInterface
                 new SmsRu($app->params['smsRuKey']),
                 \Yii::getLogger()
             );
+        });
+        $container->setSingleton(EventDispatcher::class, DeferredEventDispatcher::class);
+
+        $container->setSingleton(DeferredEventDispatcher::class, function (Container $container) {
+            return new DeferredEventDispatcher(new SimpleEventDispatcher($container, [
+                UserSignUpRequested::class => [UserSignupRequestedListener::class],
+                UserSignUpConfirmed::class => [UserSignupConfirmedListener::class],
+            ]));
         });
     }
 }
