@@ -1,7 +1,6 @@
 <?php
 
 namespace shop\useCases\auth;
-
 use shop\access\Rbac;
 use shop\dispatchers\EventDispatcher;
 use shop\entities\User\User;
@@ -15,19 +14,16 @@ class SignupService
     private $users;
     private $roles;
     private $transaction;
-    private $dispatcher;
 
     public function __construct(
         UserRepository $users,
         RoleManager $roles,
-        TransactionManager $transaction,
-        EventDispatcher $dispatcher
+        TransactionManager $transaction
     )
     {
         $this->users = $users;
         $this->roles = $roles;
         $this->transaction = $transaction;
-        $this->dispatcher = $dispatcher;
     }
 
     public function signup(SignupForm $form): void
@@ -42,7 +38,6 @@ class SignupService
             $this->users->save($user);
             $this->roles->assign($user->id, Rbac::ROLE_USER);
         });
-        $this->dispatcher->dispatchAll($user->releaseEvents());
     }
 
     public function confirm($token): void
@@ -53,6 +48,5 @@ class SignupService
         $user = $this->users->getByEmailConfirmToken($token);
         $user->confirmSignup();
         $this->users->save($user);
-        $this->dispatcher->dispatchAll($user->releaseEvents());
     }
 }
