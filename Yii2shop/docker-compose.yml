@@ -115,3 +115,7 @@ services:
       - ./nginx/api/conf.d/:/etc/nginx/conf.d/
     depends_on:
       - api-php
+  redis:
+    image: redis:7-alpine
+    ports:
+      - '6379:6379'

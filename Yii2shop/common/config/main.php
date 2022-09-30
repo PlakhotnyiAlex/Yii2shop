@@ -1,13 +1,14 @@
 <?php
 return [
+    'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
+    'bootstrap' => [
+        'common\bootstrap\SetUp',
+        'queue',
+    ],
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
     ],
-    'bootstrap' => [
-        'common\bootstrap\SetUp',
-    ],
-    'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
     'components' => [
         'cache' => [
             'class' => 'yii\caching\MemCache',
@@ -19,6 +20,10 @@ return [
             'itemChildTable' => '{{%auth_item_children}}',
             'assignmentTable' => '{{%auth_assignments}}',
             'ruleTable' => '{{%auth_rules}}',
+        ],
+        'queue' => [
+            'class' => 'yii\queue\redis\Queue',
+            'as log' => 'yii\queue\LogBehavior',
         ],
     ],
 ];
