@@ -31,7 +31,7 @@ use yii\caching\Cache;
 use yii\di\Container;
 use yii\mail\MailerInterface;
 use yii\rbac\ManagerInterface;
-
+use yii\queue\Queue;
 class SetUp implements BootstrapInterface
 {
     public function bootstrap($app): void
@@ -47,6 +47,9 @@ class SetUp implements BootstrapInterface
         });
         $container->setSingleton(ErrorHandler::class, function () use ($app) {
             return $app->errorHandler;
+        });
+        $container->setSingleton(Queue::class, function () use ($app) {
+            return $app->get('queue');
         });
 
         $container->setSingleton(Cache::class, function () use ($app) {

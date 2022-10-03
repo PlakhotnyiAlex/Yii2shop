@@ -2,7 +2,7 @@
 
 namespace shop\jobs;
 
-abstract class Job implements \yii\queue\Job
+abstract class Job implements \yii\queue\JobInterface
 {
     public function execute($queue): void
     {

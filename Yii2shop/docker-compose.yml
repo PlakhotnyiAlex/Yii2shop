@@ -20,6 +20,7 @@ services:
       - ~/.composer-docker/cache:/root/.composer/cache:delegated
       # Mount source-code for development
       - ./:/app
+      - ./supervisor/queue.conf:/etc/supervisor/conf.d/queue.conf
   frontend:
     image: nginx
     ports:
