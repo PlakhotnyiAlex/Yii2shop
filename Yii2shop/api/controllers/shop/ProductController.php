@@ -71,6 +71,7 @@ class ProductController extends Controller
     {
         $dataProvider = $this->products->getAll();
         return new MapDataProvider($dataProvider, [$this, 'serializeListItem']);
+
     }
 
     /**

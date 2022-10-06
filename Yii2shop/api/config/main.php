@@ -64,6 +64,8 @@ return [
             'identityClass' => 'common\auth\Identity',
             'enableAutoLogin' => false,
             'enableSession' => false,
+            //'enableCsrfValidation' => false,
+           // 'enableCookieValidation' => false,
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -112,11 +114,11 @@ return [
     ],
     'as access' => [
         'class' => 'yii\filters\AccessControl',
-        'except' => ['site/index', 'oauth2/rest/token'],
+        'except' => ['site/index', 'oauth2/rest/token', 'user/profile/index', 'shop/product/index'],
         'rules' => [
             [
                 'allow' => true,
-                'roles' => ['@'],
+                'roles' => ['?'],
             ],
         ],
     ],
