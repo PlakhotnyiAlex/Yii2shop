@@ -187,7 +187,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
             <div class="row">
                 <?php foreach ($product->photos as $photo): ?>
-                    <div class="col-md-2 col-xs-3" style="text-align: center">
+                    <div class="col col" style="text-align: center">
                         <div class="btn-group">
                             <?= Html::a('<span class="fa fa-arrow-left"></span>', ['move-photo-up', 'id' => $product->id, 'photo_id' => $photo->id], [
                                 'class' => 'btn btn-default',
@@ -207,7 +207,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             <?= Html::a(
                                 Html::img($photo->getThumbFileUrl('file', 'thumb')),
                                 $photo->getUploadedFileUrl('file'),
-                                ['class' => 'thumbnail', 'target' => '_blank']
+                                ['class' => 'img-thumbnail', 'target' => '_blank']
                             ) ?>
                         </div>
                     </div>

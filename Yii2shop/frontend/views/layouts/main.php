@@ -154,7 +154,7 @@ AppAsset::register($this);
             <div class="col-sm-3">
                 <h5>Information</h5>
                 <ul class="list-unstyled">
-                    <li><a href="/index.php?route=information/information&amp;information_id=4">About
+                    <li><a href="shop.d/page/about">About
                             Us</a></li>
                     <li><a href="/index.php?route=information/information&amp;information_id=6">Delivery
                             Information</a></li>
@@ -167,7 +167,7 @@ AppAsset::register($this);
             <div class="col-sm-3">
                 <h5>Customer Service</h5>
                 <ul class="list-unstyled">
-                    <li><a href="/index.php?route=information/contact">Contact Us</a></li>
+                    <li><a href="shop.d/page/services">Contact Us</a></li>
                     <li><a href="/index.php?route=account/return/add">Returns</a></li>
                     <li><a href="/index.php?route=information/sitemap">Site Map</a></li>
                 </ul>
@@ -192,7 +192,7 @@ AppAsset::register($this);
             </div>
         </div>
         <hr>
-        <p>Powered By <a href="http://www.opencart.com">OpenCart</a><br/> Your Store &copy; 2017</p>
+        <p>Powered By <a href="http://www.opencart.com">Yii2</a><br/> Alex's Store &copy; 2022</p>
     </div>
 </footer>
 

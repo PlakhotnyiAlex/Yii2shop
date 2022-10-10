@@ -15,7 +15,7 @@ use frontend\widgets\Shop\FeaturedProductsWidget;
     <div id="content" class="col-sm-12">
         <div id="slideshow0" class="owl-carousel" style="opacity: 1;">
             <div class="item">
-                <a href="index.php?route=product/product&amp;path=57&amp;product_id=49"><img
+                <a href="#"><img
                             src="http://static.shop.d/cache/banners/Fall_sale.jpg"
                             alt="Fall sale" class="img-responsive"/></a>
             </div>

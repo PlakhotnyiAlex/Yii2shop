@@ -81,7 +81,12 @@ div.required label.control-label:after{
         padding: 10px 0;
     }
 }
-
+@media(max-width:767px) {
+    .myphoto {
+        display: flex;
+        width: 25%
+    }
+}
 .nav > li > form > button.logout:focus,
 .nav > li > form > button.logout:hover {
     text-decoration: none;
